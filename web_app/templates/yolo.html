@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Technology{% endblock %}
+{% block content %}
+<section class="product-hero section">
+  <div class="section-shell">
+    <p class="eyebrow">COMPUTER VISION</p>
+    <h1 class="product-title">Recognition, built for real time.</h1>
+    <p class="product-lead">The detection layer uses a custom-trained YOLOv8m model to recognize a constrained vocabulary of Indian Sign Language gestures from live video.</p>
+  </div>
+</section>
+
+<section class="section live-demo-section">
+  <div class="section-shell">
+    <div class="live-demo-head">
+      <div><p class="eyebrow">YOLOV8M</p><h2>Fast enough for an interactive prototype.</h2></div>
+      <p>The model processes frames from the camera worker, filters low-confidence predictions, and passes stable observations to the temporal layer.</p>
+    </div>
+    <div class="live-demo-card">
+      <div class="live-screen">
+        <img id="technology-video-feed" src="{{ url_for('video_feed') }}" alt="Live YOLO sign detection feed">
+        <div class="live-badge"><span></span> LIVE DETECTION</div>
+      </div>
+      <div class="live-controls">
+        <button class="button button-blue" id="technology-toggle">Start Detection <span>→</span></button>
+        <button class="button button-ghost" id="technology-reset">Reset</button>
+        <div class="live-status" id="technology-status">Ready — start the camera to test the model.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-gray">
+  <div class="section-shell">
+    <div class="center-heading"><p class="eyebrow">WHY OBJECT DETECTION?</p><h2>A practical vision layer.</h2><p>Each frame is treated as evidence. Temporal smoothing then turns frame-level predictions into stable gesture observations.</p></div>
+    <div class="four-grid">
+      <div><span>01</span><strong>Frame</strong><p>Capture a live camera frame.</p></div>
+      <div><span>02</span><strong>Detect</strong><p>Predict gesture classes with YOLOv8m.</p></div>
+      <div><span>03</span><strong>Filter</strong><p>Apply the confidence threshold.</p></div>
+      <div><span>04</span><strong>Aggregate</strong><p>Feed stable observations into the temporal layer.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-shell tech-note">
+    <div><p class="eyebrow">MODEL IN CONTEXT</p><h2>Designed around the translation pipeline.</h2></div>
+    <p>Detection is intentionally separated from sentence generation. This keeps the vision model focused on recognition while the language layer handles sequence interpretation and regional-language output.</p>
+    <a class="button button-dark" href="/core_app">Try the full translator <span>→</span></a>
+  </div>
+</section>
+{% endblock %}
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const toggle = document.getElementById('technology-toggle');
+  const reset = document.getElementById('technology-reset');
+  const status = document.getElementById('technology-status');
+  async function post(url){ const r=await fetch(url,{method:'POST'}); const d=await r.json(); if(!r.ok) throw new Error(d.error||'Request failed'); return d; }
+  async function sync(){
+    try{
+      const r=await fetch('/api/process'); const d=await r.json();
+      toggle.textContent=(d.detection_active?'Stop Detection':'Start Detection')+' →';
+      status.textContent=d.error?d.error:(d.detection_active?(d.sequence?.length?'Detected: '+d.sequence.join(', '):'Listening for gestures…'):'Detection paused');
+    }catch(e){status.textContent=e.message}
+  }
+  toggle.addEventListener('click',async()=>{toggle.disabled=true;try{await post('/api/toggle_detection');await sync()}finally{toggle.disabled=false}});
+  reset.addEventListener('click',async()=>{await post('/api/reset');await sync()});
+  sync(); setInterval(sync,600);
+});
+</script>
+{% endblock %}

@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero-shell">
+    <div class="hero-copy">
+      <p class="eyebrow">SIGNS BEYOND BARRIERS</p>
+      <h1>A more<br>inclusive world<br>is <span>possible.</span></h1>
+      <p class="hero-lead">MudraTranslate converts Indian Sign Language (ISL) gestures into meaningful, context-aware sentences across multiple Indian languages using real-time AI.</p>
+      <div class="hero-actions">
+        <a class="button button-dark" href="/core_app">Try Live Demo <span>→</span></a>
+        <a class="watch-link" href="/yolo"><span class="play">▶</span> Watch Video</a>
+      </div>
+      <div class="hero-stats">
+        <div><strong>5+</strong><small>Languages</small></div>
+        <div><strong>21</strong><small>ISL gesture classes</small></div>
+        <div><strong>Real-time</strong><small>Detection</small></div>
+        <div><strong>AI</strong><small>Powered</small></div>
+      </div>
+    </div>
+
+    <div class="hero-visual" aria-label="Indian Sign Language recognition">
+      <img src="{{ url_for('static', filename='images/hero-woman-clean.jpg') }}" alt="Sign language demonstration">
+      <div class="hero-fade"></div>
+      <div class="hero-detection">
+        <span class="confidence">I Love You&nbsp; <b>0.96</b></span>
+        <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+      </div>
+      <div class="hero-note note-top">REAL PEOPLE<br>REAL COMMUNICATION<br>REAL IMPACT</div>
+      <div class="hero-note note-bottom">AI THAT<br>UNDERSTANDS<br>HUMANITY</div>
+    </div>
+  </div>
+</section>
+
+<section class="mission section">
+  <div class="section-shell mission-grid">
+    <div class="mission-copy">
+      <p class="eyebrow">OUR MISSION</p>
+      <h2>Technology for<br>a more equal India.</h2>
+      <p>We are building AI solutions that make communication more accessible for the deaf and hard-of-hearing community, breaking language barriers and enabling greater inclusion in education, healthcare, and public services.</p>
+      <a class="text-link" href="/team">Our Story <span>→</span></a>
+    </div>
+    <div class="mission-visual">
+      <img src="{{ url_for('static', filename='images/impact-ai-sign-language-translators-4k.png') }}" alt="AI sign language translation impact infographic" class="impact-infographic">
+    </div>
+    </div>
+  </div>
+</section>
+
+<section class="workflow section">
+  <div class="section-shell">
+    <div class="center-heading">
+      <p class="eyebrow">HOW IT WORKS</p>
+      <h2>From Gesture to Meaning</h2>
+      <p>A simple pipeline. A powerful impact.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-icon">⌾</div><strong>1. Capture</strong><p>Real-time video input from webcam or device</p></div>
+      <div class="step-arrow">→</div>
+      <div class="step"><div class="step-icon">♧</div><strong>2. Detect</strong><p>YOLO-based ISL gesture recognition</p></div>
+      <div class="step-arrow">→</div>
+      <div class="step"><div class="step-icon">▤</div><strong>3. Understand</strong><p>Context-aware sentence generation with LLM</p></div>
+      <div class="step-arrow">→</div>
+      <div class="step"><div class="step-icon">◎</div><strong>4. Translate</strong><p>Output in multiple Indian languages</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="system section section-gray">
+  <div class="section-shell system-grid">
+    <div class="system-image">
+      <img src="{{ url_for('static', filename='Workflow_Light.png') }}" alt="MudraTranslate workflow">
+    </div>
+    <div class="system-copy">
+      <p class="eyebrow">THE TRANSLATION SYSTEM</p>
+      <h2>A simple pipeline.<br>A useful result.</h2>
+      <p>The system captures live video, detects a supported sign, smooths the sequence over time, and uses an LLM to form a natural sentence in the selected language.</p>
+      <a class="button button-blue" href="/yolo">Explore Technology <span>→</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="four-steps section">
+  <div class="section-shell narrow">
+    <div class="center-heading"><p class="eyebrow">THE PROCESS</p><h2>Four steps.</h2></div>
+    <div class="four-grid">
+      <div><span>01</span><strong>Capture</strong><p>Read the gesture from a live video stream.</p></div>
+      <div><span>02</span><strong>Detect</strong><p>YOLOv8m identifies gestures from each frame.</p></div>
+      <div><span>03</span><strong>Understand</strong><p>Temporal logic turns noisy frames into a sequence.</p></div>
+      <div><span>04</span><strong>Translate</strong><p>Generate an English or regional-language sentence.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="languages section">
+  <div class="section-shell">
+    <div class="center-heading"><p class="eyebrow">SUPPORTED LANGUAGES</p><h2>Bridging people across India.</h2><p>Current output languages supported by the translation layer.</p></div>
+    <div class="language-pills">
+      <span><b>EN</b> English</span><span><b>हि</b> Hindi</span><span><b>म</b> Marathi</span><span><b>ਪ</b> Punjabi</span><span><b>த</b> Tamil</span>
+    </div>
+  </div>
+</section>
+
+<section class="impact section section-gray">
+  <div class="section-shell impact-grid">
+    <div class="impact-copy">
+      <p class="eyebrow">BUILT FOR REAL IMPACT</p>
+      <h2>Changing lives,<br>one conversation<br>at a time.</h2>
+      <p>MudraTranslate supports education, healthcare, public services, and everyday communication — helping create a more inclusive and connected society.</p>
+      <a class="text-link" href="/core_app">Explore Impact <span>→</span></a>
+    </div>
+    <div class="impact-cards">
+      <article><span class="card-icon">⌂</span><h3>Education</h3><p>Helps students with hearing impairments learn and communicate effectively.</p></article>
+      <article><span class="card-icon">♡</span><h3>Healthcare</h3><p>Supports patient–doctor communication in hospitals and clinics.</p></article>
+      <article><span class="card-icon">⌘</span><h3>Public Services</h3><p>Improves accessibility in government offices, transport and emergency services.</p></article>
+      <article><span class="card-icon">♧</span><h3>Social Inclusion</h3><p>Empowers the deaf community to participate more fully in society.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="cta-inner">
+    <p class="eyebrow">A MORE INCLUSIVE TOMORROW</p>
+    <h2>Let’s build it together.</h2>
+    <p>Be part of a future where every gesture is understood.</p>
+    <div class="cta-actions"><a class="button button-light" href="/core_app">Try Live Demo <span>→</span></a><a class="button button-outline-light" href="/api">View Documentation</a></div>
+  </div>
+</section>
+{% endblock %}

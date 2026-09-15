@@ -1,0 +1,7 @@
+-r requirements.txt
+jupyter==1.1.1
+pandas==2.2.3
+matplotlib==3.10.0
+scipy==1.15.2
+roboflow==1.1.54
+supervision>=0.27,<1

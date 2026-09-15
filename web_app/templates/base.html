@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="MudraTranslate — real-time Indian Sign Language translation powered by computer vision and language models.">
+  <title>MudraTranslate — {% block title %}{% endblock %}</title>
+  <link rel="icon" href="{{ url_for('static', filename='logo.png') }}">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { colors: { primary: {600:'#1677e8',700:'#0f63c9'} } } } };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}?v=clean-4k-20260915">
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-shell">
+      <a class="brand" href="/" aria-label="MudraTranslate home">
+        <span class="brand-mark"><img src="{{ url_for('static', filename='logo.png') }}" alt=""></span>
+        <span class="brand-copy"><strong>MudraTranslate</strong><small>Signs Beyond Barriers</small></span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="/" class="{% if request.path == '/' %}active{% endif %}">Home</a>
+        <a href="/yolo" class="{% if request.path == '/yolo' %}active{% endif %}">Technology</a>
+        <a href="/core_app" class="{% if request.path == '/core_app' %}active{% endif %}">Impact</a>
+        <a href="/team" class="{% if request.path == '/team' %}active{% endif %}">About</a>
+        <a href="/api" class="{% if request.path == '/api' %}active{% endif %}">Docs</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="theme-button" id="themeToggle" type="button" aria-label="Toggle appearance">
+          <span class="theme-dot"></span>
+        </button>
+        <a class="button button-dark button-small" href="/core_app">Try Live Demo <span>↗</span></a>
+        <button class="menu-button" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+      </div>
+    </div>
+    <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+      <a href="/">Home</a><a href="/yolo">Technology</a><a href="/core_app">Impact</a><a href="/team">About</a><a href="/api">Docs</a>
+    </nav>
+  </header>
+
+  <main>{% block content %}{% endblock %}</main>
+
+  <footer class="site-footer">
+    <div class="footer-shell">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <span class="brand-mark"><img src="{{ url_for('static', filename='logo.png') }}" alt=""></span>
+          <span class="brand-copy"><strong>MudraTranslate</strong><small>Signs Beyond Barriers</small></span>
+        </a>
+        <p>Technology for an inclusive India.</p>
+      </div>
+      <div class="footer-links">
+        <div><strong>Explore</strong><a href="/">Home</a><a href="/yolo">Technology</a><a href="/core_app">Live Demo</a></div>
+        <div><strong>Project</strong><a href="/team">About</a><a href="/api">Documentation</a><a href="/llm">LLM</a></div>
+        <div><strong>Get started</strong><a href="/core_app">Try Live Demo</a><a href="/api">API Docs</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 MudraTranslate</span><span>Built for accessibility and real-world communication.</span></div>
+  </footer>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const saved = localStorage.getItem('mudra-theme');
+      if (saved === 'dark') root.classList.add('dark');
+      const toggle = document.getElementById('themeToggle');
+      toggle?.addEventListener('click', () => {
+        root.classList.toggle('dark');
+        localStorage.setItem('mudra-theme', root.classList.contains('dark') ? 'dark' : 'light');
+      });
+      const menu = document.getElementById('mobileNav');
+      const menuBtn = document.getElementById('menuToggle');
+      menuBtn?.addEventListener('click', () => {
+        const open = menu.classList.toggle('open');
+        menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    })();
+  </script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

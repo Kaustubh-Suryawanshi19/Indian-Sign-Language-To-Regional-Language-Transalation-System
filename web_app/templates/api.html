@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}API Documentation{% endblock %}
+{% block content %}
+<section class="content-section">
+  <div class="content-container">
+    <h1 class="heading-1">Local API Documentation</h1>
+    <p class="body-text mb-8">The Flask demo exposes a small JSON API around the local webcam detector.</p>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="feature-card p-6">
+        <h2 class="heading-2">GET /health</h2>
+        <p class="body-text">Returns model, Gemini, and camera status.</p>
+      </div>
+      <div class="feature-card p-6">
+        <h2 class="heading-2">GET /api/process</h2>
+        <p class="body-text">Returns the current gesture sequence and detection state.</p>
+      </div>
+      <div class="feature-card p-6">
+        <h2 class="heading-2">POST /api/toggle_detection</h2>
+        <p class="body-text">Starts or stops the local camera worker.</p>
+      </div>
+      <div class="feature-card p-6">
+        <h2 class="heading-2">POST /api/reset</h2>
+        <p class="body-text">Clears the temporal sequence.</p>
+      </div>
+    </div>
+
+    <div class="feature-card p-6 mt-8">
+      <h2 class="heading-2">POST /api/translate</h2>
+      <p class="body-text mb-4">Request body:</p>
+      <pre class="bg-gray-900 text-gray-100 rounded-lg p-5 overflow-x-auto"><code>{
+  "signs": ["I", "Love", "Home"],
+  "lang": "mr"
+}</code></pre>
+      <p class="body-text mt-4">The server validates the sequence, localizes known tokens, and then uses Gemini when configured. If Gemini is unavailable, a deterministic fallback is returned.</p>
+    </div>
+
+    <div class="feature-card p-6 mt-8">
+      <h2 class="heading-2">Response</h2>
+      <pre class="bg-gray-900 text-gray-100 rounded-lg p-5 overflow-x-auto"><code>{
+  "status": "success",
+  "translation": "मला घर आवडते.",
+  "language": "Marathi",
+  "localized_tokens": ["मी", "प्रेम", "घर"],
+  "method": "gemini"
+}</code></pre>
+    </div>
+
+    <div class="mt-8 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-6">
+      <h2 class="text-lg font-semibold text-blue-800 dark:text-blue-200">Deployment note</h2>
+      <p class="mt-2 text-blue-700 dark:text-blue-300">This prototype reads the webcam attached to the Flask host. It is not a remote browser-camera API. Use WebRTC/WebSocket camera capture for a multi-user deployment.</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

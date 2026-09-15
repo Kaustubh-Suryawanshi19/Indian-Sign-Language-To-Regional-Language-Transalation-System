@@ -1,0 +1,27 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+env/
+.env
+node_modules/
+.DS_Store
+.idea/
+.vscode/
+*.log
+runs/
+
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Training / generated outputs
+*.ipynb_checkpoints/
+wandb/
+mlruns/
+
+# Local model exports / temporary data
+*.onnx
+*.engine
+*.pt.tmp

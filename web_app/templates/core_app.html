@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Language Translator</title>
+    <link rel="icon" href="../static/logo.png" sizes="32x32" />
+    <link rel="icon" href="../static/logo.png" sizes="16x16" />
+    <link rel="apple-touch-icon" href="../static/logo.png" />
+    <link rel="shortcut icon" href="../static/logo.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Keep original styles as fallback */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 640px;
+            height: 480px;
+            margin: 0 auto 20px;
+            background-color: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        #video-feed {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        @media (max-width: 600px) {
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            button, select {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900">
+    <!-- Navigation -->
+    <nav class="bg-white dark:bg-gray-800 shadow-sm py-4 px-6 md:px-12 lg:px-24">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="/">
+                    <img src="../static/logo.png" alt="Company Logo" class="h-8">
+                </a>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="/" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium">Home</a>
+                <a href="/yolo" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium">YOLO</a>
+                <a href="/llm" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium">LLM</a>
+                <a href="/api" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium">API</a>
+            </div>
+            <!-- Dark Mode Toggle -->
+            <div class="flex items-center">
+                <button id="themeToggle" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+                    <i class="fas fa-moon dark:hidden"></i>
+                    <i class="fas fa-sun hidden dark:block"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-6xl mx-auto py-12 px-6">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-8 text-center">Sign Language Translator</h1>
+        
+        <!-- Video Feed -->
+        <div class="relative w-full max-w-4xl h-96 md:h-[500px] mx-auto mb-8 bg-black rounded-xl overflow-hidden shadow-lg">
+            <img id="video-feed" src="{{ url_for('video_feed') }}" class="w-full h-full object-contain">
+        </div>
+        
+        <!-- Status Display -->
+        <div id="status-display" class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg text-center text-gray-700 dark:text-gray-300 mb-8 max-w-4xl mx-auto">
+            Ready - Click "Start Detection" to begin
+        </div>
+        
+        <!-- Controls -->
+        <div class="flex flex-wrap justify-center gap-4 mb-8">
+            <button id="toggle-detection-btn" class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-md font-medium transition">
+                Start Detection
+            </button>
+            <select id="language" class="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md px-4 py-2 focus:ring-primary-500 focus:border-primary-500">
+                <option value="en">English</option>
+                <option value="hi">हिंदी (Hindi)</option>
+                <option value="mr">मराठी (Marathi)</option>
+                <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+                <option value="ta">தமிழ் (Tamil)</option>
+            </select>
+            <button id="translate-btn" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-md font-medium transition">
+                Translate
+            </button>
+            <button id="reset-btn" class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-md font-medium transition">
+                Reset
+            </button>
+        </div>
+        
+        <!-- Results -->
+        <div id="results" class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm max-w-4xl mx-auto">
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Detected Signs:</h3>
+            <p id="sign-sequence" class="text-gray-700 dark:text-gray-300 mb-4">None yet</p>
+            
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Translation:</h3>
+            <p id="translation-result" class="text-gray-700 dark:text-gray-300">Waiting...</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 px-6 md:px-12 lg:px-24">
+        <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+                <a href="/">
+                    <img src="../static/logo.png" alt="Company Logo" class="h-8 mb-6 invert dark:invert-0">
+                </a>
+                <p class="text-gray-400">Real-time ISL to multi-language translation</p>
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold mb-4">Products</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white">Digital Workers</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Platform</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Solutions</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold mb-4">Company</h4>
+                <ul class="space-y-2">
+                    <li><a href="/team" class="text-gray-400 hover:text-white">About Us</a></li>
+                    <li><a href="/team" class="text-gray-400 hover:text-white">Careers</a></li>
+                    <li><a href="/team" class="text-gray-400 hover:text-white">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold mb-4">Connect</h4>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto pt-12 mt-12 border-t border-gray-800 text-center text-gray-400">
+            <p>© 2025 MudraTranslate. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
