@@ -624,8 +624,10 @@ The project demonstrates the complete concept from real-time ISL gesture detecti
 
 **Computer Science Engineering · Data Science · AI/ML**
 
-- GitHub: [Kaustubh-Suryawanshi19](https://github.com/Kaustubh-Suryawanshi19)
+- GitHub: https://github.com/Kaustubh-Suryawanshi19
 - Project: [Indian Sign Language to Regional Language Translation System](https://github.com/Kaustubh-Suryawanshi19/Indian-Sign-Language-To-Regional-Language-Transalation-System)
+- LinkedIn: https://linkedin.com/in/kaustubh-suryawanshi18
+
 
 ---
 
